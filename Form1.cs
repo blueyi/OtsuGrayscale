@@ -24,6 +24,7 @@ namespace OtsuThreshold
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 pictureBox1.Image = Bitmap.FromFile(openFileDialog1.FileName);
+                pictureBox1.Refresh();
                 org = (Bitmap)pictureBox1.Image;
             }
         }
@@ -46,9 +47,5 @@ namespace OtsuThreshold
             pictureBox1.Image = temp;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            org = (Bitmap)pictureBox1.Image.Clone();
-        }
     }
 }

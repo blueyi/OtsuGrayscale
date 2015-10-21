@@ -123,12 +123,30 @@ namespace OtsuThreshold
                     p += 3;
                 }
                 */
+                /*
                 byte* ptr = (byte*)(bmData.Scan0);
                 for (int i = 0; i < bmData.Height; i++)
                 {
                     for (int j = 0; j < bmData.Width; j++)
                     {
                         *ptr = (byte)(.299 * (*ptr) + .587 * (*(ptr + 1)) + .114 * (*(ptr + 2)));
+                        *(ptr + 1) = *ptr;
+                        *(ptr + 2) = *ptr;
+                        ptr += 3;
+                    }
+                    ptr += bmData.Stride - bmData.Width * 3;
+                }
+                 */
+                //New method
+                byte* ptr = (byte*)(bmData.Scan0);
+                for (int i = 0; i < bmData.Height; i++)
+                {
+                    for (int j = 0; j < bmData.Width; j++)
+                    {
+                        if ((*ptr > *(ptr + 2)) && (*(ptr + 1) > *(ptr + 2)))
+                            *ptr = (byte)255;
+                        else
+                            *ptr = (byte)0;
                         *(ptr + 1) = *ptr;
                         *(ptr + 2) = *ptr;
                         ptr += 3;
