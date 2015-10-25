@@ -137,7 +137,8 @@ namespace OtsuThreshold
                     ptr += bmData.Stride - bmData.Width * 3;
                 }
                  */
-                //New method
+                //New method to gray
+                /*
                 byte* ptr = (byte*)(bmData.Scan0);
                 for (int i = 0; i < bmData.Height; i++)
                 {
@@ -153,35 +154,72 @@ namespace OtsuThreshold
                     }
                     ptr += bmData.Stride - bmData.Width * 3;
                 }
-
+                */
+                //New method to gray
+                byte* ptr = (byte*)(bmData.Scan0);
+                for (int i = 0; i < bmData.Height; i++)
+                {
+                    for (int j = 0; j < bmData.Width; j++)
+                    {
+                        if ((*ptr > *(ptr + 2)) && (*(ptr + 1) > *(ptr + 2)))
+                        {
+                            double dptr = Convert.ToDouble(*ptr);
+                            double dptr1 = Convert.ToDouble(*(ptr + 1));
+                            double dptr2 = Convert.ToDouble(*(ptr + 2));
+                            //water
+                            if ((dptr2 / dptr <= 0.50) || (dptr2 / dptr1 <= 0.50))
+                            {
+                                *ptr = (byte)60;
+                                *(ptr + 1) = (byte)40;
+                                *(ptr + 2) = (byte)40;
+                            }
+                            else //ice
+                            {
+                                *ptr = (byte)145;
+                                *(ptr + 1) = (byte)118;
+                                *(ptr + 2) = (byte)46;
+                            }
+                        }
+                        else  //other
+                        {
+                            *ptr = (byte)94;
+                            *(ptr + 1) = (byte)119;
+                            *(ptr + 2) = (byte)186;
+                        }
+                        ptr += 3;
+                    }
+                    ptr += bmData.Stride - bmData.Width * 3;
+                }
             }
             bmp.UnlockBits(bmData);
         }
 
+        /*
         public void threshold(Bitmap bmp, int thresh)
-        { 
+        {
             BitmapData bmData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
             unsafe
             {
                 byte* p = (byte*)(void*)bmData.Scan0.ToPointer();
-                int h= bmp.Height;
+                int h = bmp.Height;
                 int w = bmp.Width;
                 int ws = bmData.Stride;
 
                 for (int i = 0; i < h; i++)
                 {
-                    byte *row=&p[i*ws];
+                    byte* row = &p[i * ws];
                     for (int j = 0; j < w * 3; j += 3)
                     {
                         row[j] = (byte)((row[j] > (byte)thresh) ? 255 : 0);
-                        row[j+1] = (byte)((row[j+1] > (byte)thresh) ? 255 : 0);
+                        row[j + 1] = (byte)((row[j + 1] > (byte)thresh) ? 255 : 0);
                         row[j + 2] = (byte)((row[j + 2] > (byte)thresh) ? 255 : 0);
                     }
                 }
             }
             bmp.UnlockBits(bmData);
         }
+        */
     }
 }
 

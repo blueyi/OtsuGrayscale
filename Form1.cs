@@ -41,9 +41,9 @@ namespace OtsuThreshold
         {
             Bitmap temp = (Bitmap)org;
             ot.Convert2GrayScaleFast(temp);
-            int otsuThreshold= ot.getOtsuThreshold((Bitmap)temp);
-            ot.threshold(temp,otsuThreshold);
-            textBox1.Text = otsuThreshold.ToString();
+//            int otsuThreshold= ot.getOtsuThreshold((Bitmap)temp);
+//            ot.threshold(temp,otsuThreshold);
+//            textBox1.Text = otsuThreshold.ToString();
             pictureBox1.Image = temp;
         }
 
